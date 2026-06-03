@@ -2,6 +2,7 @@ import torch
 from miniGPT.tokenizer import tokenizer
 from miniGPT.config import model_config
 from miniGPT.model import GPT2
+from miniGPT.dataloader import create_dataloader
 
 def generate_text_simple(model, idx, max_new_token, context_size):
     for _ in range(max_new_token):
@@ -16,15 +17,17 @@ def generate_text_simple(model, idx, max_new_token, context_size):
     return idx
 
 
-start_context = "Hello, I am"
-encoded = tokenizer.encode(start_context)
-print("encoded: ", encoded)
-encoded_tensor = torch.tensor(encoded).unsqueeze(0)
-print("encoded tensor: ", encoded_tensor)
+# start_context = "Hello, I am"
+# tokenizer = tokenizer()
+# tokenids = tokenizer.text_to_token_ids(start_context)
+# print("tokenids: ", tokenids)
+# model = GPT2(model_config)
+# out = generate_text_simple(model, tokenids, 6, model_config['context_length'])
+# print("OUT: ", tokenizer.token_ids_to_text(out))
 
-model = GPT2(model_config)
-out = generate_text_simple(model, encoded_tensor, 6, model_config['context_length'])
-print("OUT: ", out)
+with open('./the-verdict.txt', "r", encoding="utf-8") as f:
+    txt = f.read()
 
-out = tokenizer.decode(out.squeeze(0).tolist())
-print("OUT: ", out)
+dataloader = create_dataloader(txt)
+for i, data in iter(dataloader):
+    print("I: ", i, ", Data: ", data)

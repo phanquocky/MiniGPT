@@ -7,4 +7,5 @@ model_config = {
     "num_layers": 12,
     "dropout": 0.1,
     "qkv_bias": False,
+    "data_file": "./the-verdict.txt"
 }
