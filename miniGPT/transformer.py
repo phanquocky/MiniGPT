@@ -9,7 +9,8 @@ class Transformer(nn.Module):
             d_out=config['embedding_dim'],
             context_lengh=config['context_length'],
             num_heads=config['num_heads'],
-            dropout=config['dropout'])
+            dropout=config['dropout'],
+            qkv_bias=config['qkv_bias'])
         self.feed_forward = FeedForward(config)
         self.norm1 = LayerNorm(config['embedding_dim'])
         self.norm2 = LayerNorm(config['embedding_dim'])

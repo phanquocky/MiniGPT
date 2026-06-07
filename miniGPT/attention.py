@@ -2,15 +2,15 @@ import torch
 import torch.nn as nn
 
 class MultiHeadAttention(nn.Module):
-    def __init__(self, d_in, d_out, num_heads, context_lengh, dropout):
+    def __init__(self, d_in, d_out, num_heads, context_lengh, dropout, qkv_bias=False):
         super().__init__()
         print("initializing multi head attention with d_in:", d_in, "d_out:", d_out, "num_heads:", num_heads, "context_length:", context_lengh, "dropout:", dropout)
         assert d_out % num_heads == 0, "d_out must be divisible by num_heads"
         self.num_heads = num_heads
         self.head_size = d_out // num_heads
-        self.W_query = nn.Linear(d_in, d_out, bias=False)
-        self.W_key = nn.Linear(d_in, d_out, bias=False)
-        self.W_value = nn.Linear(d_in, d_out, bias=False)
+        self.W_query = nn.Linear(d_in, d_out, bias=qkv_bias)
+        self.W_key = nn.Linear(d_in, d_out, bias=qkv_bias)
+        self.W_value = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.Dropout = nn.Dropout(dropout)
         self.OutProj = nn.Linear(d_out, d_out) # output projection to combine heads
         self.register_buffer('mask', torch.tril(torch.ones(context_lengh, context_lengh), diagonal=0)) # precompute mask for max context length of 1000
