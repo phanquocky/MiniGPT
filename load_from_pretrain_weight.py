@@ -166,7 +166,7 @@ start_context = "Every effort moves you"
 
 resp = model.generate(
     context=start_context,
-    max_new_tokens=1000,
+    max_new_tokens=100,
     context_size=model_config["context_length"],
     top_k=50,
     temperature=0.5,
